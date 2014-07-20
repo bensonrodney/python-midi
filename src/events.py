@@ -280,6 +280,7 @@ class SetTempoEvent(MetaEvent):
     length = 3
 
     def __init__(self, **kw):
+        kw = kw.copy()
         bpm = 120.0
         if 'bpm' in kw:
             bpm = kw['bpm']
@@ -311,6 +312,7 @@ class TimeSignatureEvent(MetaEvent):
     length = 4
 
     def __init__(self, **kw):
+        kw = kw.copy()
         if "tick" not in kw:
             kw['tick'] = 0
         if "data" not in kw:
