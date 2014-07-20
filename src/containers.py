@@ -1,4 +1,5 @@
 from pprint import pformat, pprint
+import events
 
 class Pattern(list):
     def __init__(self, tracks=[], resolution=220, format=1, tick_relative=True):
@@ -33,6 +34,18 @@ class Pattern(list):
         # The deprecated __getslice__ is still called when subclassing built-in types
         # for calls of the form List[i:j]
         return self.__getitem__(slice(i,j))
+
+    def get_SetTempoEvents(self):
+        return [e for e in self[0] if type(e) is events.SetTempoEvent]
+    SetTempoEvents = property(get_SetTempoEvents)
+
+    def get_TimeSignatureEvents(self):
+        return [e for e in self[0] if type(e) is events.TimeSignatureEvent]
+    TimeSignatureEvents = property(get_TimeSignatureEvents)
+
+    def get_KeySignatureEvents(self):
+                return [e for e in self[0] if type(e) is events.KeySignatureEvent]
+    KeySignatureEvents = property(get_KeySignatureEvents)
 
 class Track(list):
     def __init__(self, events=[], tick_relative=True):
