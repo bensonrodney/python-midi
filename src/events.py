@@ -287,7 +287,7 @@ class SetTempoEvent(MetaEvent):
         self.set_bpm(bpm)
 
     def set_bpm(self, bpm):
-        self.mpqn = int(round(float(6e7) / float(bpm)))
+        self.mpqn = int(float(6e7) / float(bpm))
     def get_bpm(self):
         return float(6e7) / float(self.mpqn)
     bpm = property(get_bpm, set_bpm)
@@ -316,7 +316,6 @@ class TimeSignatureEvent(MetaEvent):
         if "data" not in kw:
             kw['data'] = [4, 2, 24, 8]
         super(MetaEvent, self).__init__(**kw)
-        pass
 
     def get_numerator(self):
         return self.data[0]
