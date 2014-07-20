@@ -279,10 +279,17 @@ class SetTempoEvent(MetaEvent):
     metacommand = 0x51
     length = 3
 
+    def __init__(self, **kw):
+        bpm = 120.0
+        if 'bpm' in kw:
+            bpm = kw['bpm']
+        super(MetaEvent, self).__init__(**kw)
+        self.set_bpm(bpm)
+
     def set_bpm(self, bpm):
-        self.mpqn = int(float(6e7) / bpm)
+        self.mpqn = int(round(float(6e7) / float(bpm)))
     def get_bpm(self):
-        return float(6e7) / self.mpqn
+        return float(6e7) / float(self.mpqn)
     bpm = property(get_bpm, set_bpm)
 
     def get_mpqn(self):
@@ -302,6 +309,14 @@ class TimeSignatureEvent(MetaEvent):
     name = 'Time Signature'
     metacommand = 0x58
     length = 4
+
+    def __init__(self, **kw):
+        if "tick" not in kw:
+            kw['tick'] = 0
+        if "data" not in kw:
+            kw['data'] = [4, 2, 24, 8]
+        super(MetaEvent, self).__init__(**kw)
+        pass
 
     def get_numerator(self):
         return self.data[0]
